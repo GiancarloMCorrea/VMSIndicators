@@ -136,6 +136,6 @@ plot_indicators(ind_data = ind_data)
 ```
 
 Finalmente, podemos también graficar los centros de gravedad de cada viaje (ponderado por velocidad) y la incercia espacial:
-```{r eval = FALSE}
-plot_cgi(data = procdata, vessel_name = 'GIANNINA_I', alpha = 0.7)
+```{r eval = TRUE}
+plot_cgi(data = procdata, vessel_name = 'all', alpha = 0.7)
 ```

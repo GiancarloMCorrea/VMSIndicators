@@ -14,26 +14,25 @@ distCoast = function(lon, lat, mainLand = TRUE){
   posiciones = temp[,c("lon", "lat")]
   
   #- Convert VMS data to SpatialPolygons
-  spTa              = SpatialPoints(data.frame(posiciones))
-  proj4string(spTa) = CRS("+proj=longlat")
-  spTa.proj         = spTransform(spTa, CRS("+proj=utm +zone=18 ellips=WGS84"))
+  spTa              = sp::SpatialPoints(data.frame(posiciones))
+  sp::proj4string(spTa) = sp::CRS("+proj=longlat")
+  spTa.proj         = sp::spTransform(spTa, sp::CRS("+proj=utm +zone=18 ellips=WGS84"))
   
   #- Read shapefile of Peru
-  load("PER_ADM0.RData")
   Peru              = as(PER_ADM0, "SpatialPolygons")
 
   if(mainLand) {
     newPeru = Peru@polygons[[1]]@Polygons[[22]]
     firstPoly = sp::Polygons(list(newPeru), ID = "A")
     firstSpatialPoly = sp::SpatialPolygons(list(firstPoly))
-    proj4string(firstSpatialPoly) = CRS("+proj=longlat")
-    Peru.proj         = spTransform(firstSpatialPoly, CRS("+proj=utm +zone=18 ellips=WGS84"))
+    sp::proj4string(firstSpatialPoly) = sp::CRS("+proj=longlat")
+    Peru.proj         = sp::spTransform(firstSpatialPoly, sp::CRS("+proj=utm +zone=18 ellips=WGS84"))
   } else {
-    proj4string(Peru) = CRS("+proj=longlat")
-    Peru.proj         = spTransform(Peru, CRS("+proj=utm +zone=18 ellips=WGS84"))
+    sp::proj4string(Peru) = sp::CRS("+proj=longlat")
+    Peru.proj         = sp::spTransform(Peru, sp::CRS("+proj=utm +zone=18 ellips=WGS84"))
   }
 
-  dists = gDistance(spgeom1 = spTa.proj, spgeom2=Peru.proj,byid=T) #
+  dists = rgeos::gDistance(spgeom1 = spTa.proj, spgeom2=Peru.proj,byid=T) #
   distance       = as.vector(t(dists*0.00053996)) # convirtiendo de metros a millas nauticas
  
   return(distance)

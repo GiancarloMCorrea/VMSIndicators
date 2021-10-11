@@ -18,10 +18,9 @@ plot_trajectory = function(data, vessel_name = 'all', save_folder = './', ...) {
   data$TRIP = paste(data$MATRICULA, data$TRIP_IND, sep = '_')
 
   # Read map:
-  load("PER_ADM0.RData")
   Peru              = as(PER_ADM0, "SpatialPolygons")
-  proj4string(Peru) = CRS("+proj=longlat")
-  Peru.proj         = spTransform(Peru, CRS("+proj=utm +zone=18 ellips=WGS84"))
+  sp::proj4string(Peru) = sp::CRS("+proj=longlat")
+  Peru.proj         = sp::spTransform(Peru, sp::CRS("+proj=utm +zone=18 ellips=WGS84"))
 
   #Vessel info:
   if(vessel_name != 'all') {
@@ -47,7 +46,7 @@ plot_trajectory = function(data, vessel_name = 'all', save_folder = './', ...) {
 
       indViaje = tripIndex[k]
 
-      plotData = filter(data, TRIP_IND == indViaje & MATRICULA == selVesselInd)
+      plotData = dplyr::filter(data, TRIP_IND == indViaje & MATRICULA == selVesselInd)
       xLim = range(plotData$LON) 
       yLim = range(plotData$LAT) 
       nHours = difftime(plotData$TIME[nrow(plotData)], plotData$TIME[1], units = 'hours')

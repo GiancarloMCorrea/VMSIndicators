@@ -1,5 +1,5 @@
 colorRampAlpha = function(..., n, alpha) {
-   colors = colorRampPalette(...)(n)
+   colors = grDevices::colorRampPalette(...)(n)
    paste(colors, sprintf("%x", ceiling(255*alpha)), sep="")
 }
 

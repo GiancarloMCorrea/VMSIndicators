@@ -16,11 +16,11 @@ preprocessing = function(vmsdata, catchdata, vesseldata, cutoff_dc = 5, cutoff_t
 
   # Create time column:
   vmsdata$TIME = paste(vmsdata$FECHA, vmsdata$HORA)
-  vmsdata$TIME = parse_date_time(vmsdata$TIME, c("%d/%m/%Y %H:%M:%S", "%d/%m/%y %H:%M"))
+  vmsdata$TIME = lubridate::parse_date_time(vmsdata$TIME, c("%d/%m/%Y %H:%M:%S", "%d/%m/%y %H:%M"))
   vmsdata$EMB_NOMBRE = gsub(pattern = '[[:space:]]', replacement = '_', x = vmsdata$NAVE)
 
   catchdata$TIME2 = paste(catchdata$Fecha_Arribo, catchdata$Hora_Arribo) # intentar con fecha de zarpe luego
-  catchdata$TIME = parse_date_time(catchdata$TIME2, c("%m/%d/%Y %H:%M:%S"))
+  catchdata$TIME = lubridate::parse_date_time(catchdata$TIME2, c("%m/%d/%Y %H:%M:%S"))
   catchdata$EMB_NOMBRE = gsub(pattern = '[[:space:]]', replacement = '_', x = catchdata$EMBARCACION)
 
   #Vessel info:
@@ -31,9 +31,9 @@ preprocessing = function(vmsdata, catchdata, vesseldata, cutoff_dc = 5, cutoff_t
   for(i in seq_along(listVessel)) {
     
     # select vessel i
-    tmpData = filter(vmsdata, MATRICULA == listVessel[i])
+    tmpData = dplyr::filter(vmsdata, MATRICULA == listVessel[i])
     name_vessel = unique(tmpData$EMB_NOMBRE)[1]
-    catch_tmpData = filter(catchdata, EMB_NOMBRE == name_vessel)
+    catch_tmpData = dplyr::filter(catchdata, EMB_NOMBRE == name_vessel)
 
     if(nrow(catch_tmpData) == 0) {
       warning(paste0("No hay informacion de desembarques para la embarcacion ", name_vessel))
@@ -64,7 +64,7 @@ preprocessing = function(vmsdata, catchdata, vesseldata, cutoff_dc = 5, cutoff_t
     
     for(j in 1:nTrips) {
       
-      tmpData_2 = filter(tmpData, TRIP_IND == j)
+      tmpData_2 = dplyr::filter(tmpData, TRIP_IND == j)
       
       # only for trip with more than 1 row:
       if(nrow(tmpData_2) > 1) {
@@ -114,7 +114,7 @@ preprocessing = function(vmsdata, catchdata, vesseldata, cutoff_dc = 5, cutoff_t
     
   }
 
-  indData2 = rbindlist(indData)
+  indData2 = data.table::rbindlist(indData)
 
   # Limpieza de datos: Eliminar los que no tienen datos de 
   outData = indData2[(!is.na(indData2$LANDING) & indData2$DIFF_IND_TRIP <= cutoff_time & indData2$TRIP_TIME >= min_trip_time & 

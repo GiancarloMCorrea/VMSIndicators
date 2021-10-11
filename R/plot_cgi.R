@@ -17,7 +17,8 @@
 #' @return A PNG where the center of gravity and intertia are shown. 
 #' Bubble size is proportinal to trip catch.
 #' @export
-plot_cgi = function(data, vessel_name, save_folder = "./", color_scale = c("blue", "white", "red"), alpha = 0.1, mainTitle = NULL, ...) {
+plot_cgi = function(data, vessel_name, save_folder = "./", color_scale = c("blue", "white", "red"), 
+                    alpha = 0.1, mainTitle = NULL, save_plot = TRUE, ...) {
 
   w = NA
   modproj = NA
@@ -31,21 +32,20 @@ plot_cgi = function(data, vessel_name, save_folder = "./", color_scale = c("blue
   }
 
   if(!(class(data$MIN_TIME)[1] == "POSIXct")) {
-    data$MIN_TIME = parse_date_time(data$MIN_TIME, c("%Y-%m-%d %H:%M:%S", "%Y-%m-%d %H:%M"))
+    data$MIN_TIME = lubridate::parse_date_time(data$MIN_TIME, c("%Y-%m-%d %H:%M:%S", "%Y-%m-%d %H:%M"))
   }
 
   plotData = data %>%
-                  group_by(EMB_NOMBRE, TRIP_IND, MIN_TIME) %>%
-                  summarise(LAT = mean(CG_LAT), 
+                  dplyr::group_by(EMB_NOMBRE, TRIP_IND, MIN_TIME) %>%
+                  dplyr::summarise(LAT = mean(CG_LAT), 
                             LON = mean(CG_LON),
                             LANDING = mean(LANDING), .groups = 'drop')
 
 
   # Read map:
-  load("PER_ADM0.RData")
   Peru              = as(PER_ADM0, "SpatialPolygons")
-  proj4string(Peru) = CRS("+proj=longlat")
-  Peru.proj         = spTransform(Peru, CRS("+proj=utm +zone=18 ellips=WGS84"))
+  sp::proj4string(Peru) = sp::CRS("+proj=longlat")
+  Peru.proj         = sp::spTransform(Peru, sp::CRS("+proj=utm +zone=18 ellips=WGS84"))
 
   #Vessel info:
   if(vessel_name != 'all') {
@@ -62,8 +62,8 @@ plot_cgi = function(data, vessel_name, save_folder = "./", color_scale = c("blue
       plot_dat = plotData
       vesselName = 'Toda_la_flota'
     } else {
-      plot_dat = plotData[plotData$EMB_NOMBRE == selVessel, ]
-      vesselName = selVessel
+      plot_dat = plotData[plotData$EMB_NOMBRE %in% selVessel, ]
+      vesselName = paste(selVessel, collapse = '-')
     }
 
     plot_dat = plot_dat[order(plot_dat$MIN_TIME), ]
@@ -166,8 +166,6 @@ plot_cgi = function(data, vessel_name, save_folder = "./", color_scale = c("blue
           thisTitle = mainTitle
         }
 
-        png(file.path(save_folder, paste0('CGI_', vesselName, '.png')), width = 150, height = 150, units = 'mm', res = 300, ...)
-
         plot(Peru, col = 'grey', xlim = xLim, ylim = yLim, axes = TRUE, 
              main = thisTitle)
         points(x = plot_dat$LON, y = plot_dat$LAT, cex = (plot_dat$LANDING/maxCatch)*2, pch = 19, col = colorsvec[plot_dat$COL_ID])
@@ -176,7 +174,10 @@ plot_cgi = function(data, vessel_name, save_folder = "./", color_scale = c("blue
         legend('bottomleft', legend = paste0('Max captura = ', maxCatch, ' t'), bty = 'n')
         box()
 
-        dev.off()
+        if(save_plot) {
+          dev.copy(png, file.path(save_folder, paste0('CGI_', vesselName, '.png')), width = 150, height = 150, units = 'mm', res = 300, ...)
+          dev.off()
+        }
       
     }
     else {

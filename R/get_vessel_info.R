@@ -8,8 +8,8 @@
 get_vessel_info = function(vmsdata) {
 
   vesselInfo = vmsdata %>%
-                group_by(MATRICULA) %>%
-                summarise(EMB_NOMBRE = unique(NAVE))
+                dplyr::group_by(MATRICULA) %>%
+                dplyr::summarise(EMB_NOMBRE = unique(NAVE))
   vesselInfo$EMB_NOMBRE = gsub(pattern = '[[:space:]]', replacement = '_', x = vesselInfo$EMB_NOMBRE)
 
 
