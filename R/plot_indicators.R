@@ -15,7 +15,7 @@ plot_indicators = function(ind_data, save_plot = FALSE, save_folder = './', ...)
     ggplot2::geom_boxplot() +
     ggplot2::xlab('Periodo') +
     ggplot2::ylab('Valor') +
-    ggplot2::facet_wrap(vars(indicator), nrow = 3, scales = "free_y")
+    ggplot2::facet_wrap(ggplot2::vars(indicator), nrow = 3, scales = "free_y")
 
   print(g2)
 
