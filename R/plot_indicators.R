@@ -7,7 +7,7 @@
 #' @param save_folder Folder to save the plot.
 #' @return A PNG with the efficiency indicators plot.
 #' @export
-plot_indicators = function(ind_data, save_folder = './', ...) {
+plot_indicators = function(ind_data, save_plot = FALSE, save_folder = './', ...) {
 
   plot_data = tidyr::gather(ind_data, key = 'indicator', value = 'valor', DIST:EFF_VIAJE)
 
@@ -19,7 +19,7 @@ plot_indicators = function(ind_data, save_folder = './', ...) {
 
   print(g2)
 
-  if(save_plot == TRUE) {
+  if(save_plot) {
     dev.copy(png, file.path(save_folder, 'indicators_plot.png'), width = 180, height = 180, units = 'mm', res = 300, ...)
     dev.off()
   }
