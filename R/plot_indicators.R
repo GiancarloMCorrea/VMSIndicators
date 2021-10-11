@@ -19,7 +19,7 @@ plot_indicators = function(ind_data, save_folder = './', ...) {
 
   print(g2)
 
-  if(save_plot = TRUE) {
+  if(save_plot == TRUE) {
     dev.copy(png, file.path(save_folder, 'indicators_plot.png'), width = 180, height = 180, units = 'mm', res = 300, ...)
     dev.off()
   }
