@@ -1,13 +1,13 @@
 Package: VMSIndicators
-Title: What the Package Does (One Line, Title Case)
+Title: VMS indicators
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "Giancarlo",
+           family = "M. Correa",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
+           email = "moroncog@oregonstate.edu",
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+Description: Calculate efficiency indicators using VMS data.
 License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
     license
 Encoding: UTF-8
@@ -15,15 +15,15 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 Imports: 
-    dplyr, 
-    tidyr, 
-    lubridate,
-    ggplot2,
-    raster,
-    data.table,
-    rgeos,
-    rgdal,
-    sp
+    tidyr (>= 1.1.4), 
+    dplyr (>= 1.0.7), 
+    lubridate (>= 1.8.0),
+    ggplot2 (>= 3.3.5),
+    raster (>= 3.4.13),
+    data.table (>= 1.14.2),
+    rgeos (>= 0.5.8),
+    rgdal (>= 1.5.27),
+    sp (>= 1.4.5)
 Depends: 
     R (>= 2.10)
 Suggests: 

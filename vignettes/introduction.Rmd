@@ -75,7 +75,7 @@ head(procdata)
 ```
 
 Podemos crear figuras en formato PNG de las trayectorias de cada viaje identificado:
-```{r}
+```{r eval = FALSE}
 plot_trajectory(data = procdata, vessel_name = 'GIANNINA_I')
 ```
 
@@ -90,11 +90,11 @@ head(ind_data)
 ```
 
 Estos indicadores pueden ser incluidos en una figura en formato PNG:
-```{r}
+```{r eval = FALSE}
 plot_indicators(ind_data = ind_data)
 ```
 
 Finalmente, podemos también graficar los centros de gravedad de cada viaje (ponderado por velocidad) y la incercia espacial:
-```{r}
+```{r eval = FALSE}
 plot_cgi(data = procdata, vessel_name = 'GIANNINA_I', alpha = 0.7)
 ```
