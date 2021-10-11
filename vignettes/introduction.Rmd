@@ -89,6 +89,47 @@ Como vemos, cada indicador es específico para cada viaje:
 head(ind_data)
 ```
 
+## Indicadores de eficiencia
+
+### IND_1: Recorrido por viaje
+
+Es la distancia navegada durante el viaje (en millas nauticas). 
+
+### IND_2: Distancia en línea recta
+
+Sea $Dst_1$ la distancia del punto de inicio a su punto más apartado y $Dst_2$ la distancia del punto final a su punto más apartado. Entonces, la distancia en línea recta es calculada como el promedio entre $Dst_1$ y $Dst_2$ (en millas nauticas).
+
+### IND_3: Eficiencia de recorrido
+
+Calulado como: $IND_2/IND_1$.
+
+### IND_4: Captura obtenida
+
+Es la captura obtenida en el viaje (en toneladas).
+
+### IND_5: Eficiencia de captura
+
+Calculada como: $IND_4/CAPBOD$, donde $CAPBOD$ representa la capacidad de bodega de la embarcación (en $t/m^3$).
+
+### IND_6: Tiempo de viaje
+
+Es el tiempo total de un viaje (en horas).
+
+### IND_7: Indice temporal
+
+Calculada como: $24/IND_6$.
+
+### IND_8: Captura por unidad de esfuerzo
+
+Calculada como: $IND_4/IND_6$
+
+### IND_9: Eficiencia de viaje
+
+Calculada como: 
+
+$$log(IND_3*IND_5*IND_7*IND_8 + 1)$$
+
+
 Estos indicadores pueden ser incluidos en una figura en formato PNG:
 ```{r eval = FALSE}
 plot_indicators(ind_data = ind_data)
