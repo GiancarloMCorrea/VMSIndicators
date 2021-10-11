@@ -11,14 +11,17 @@ plot_indicators = function(ind_data, save_folder = './', ...) {
 
   plot_data = tidyr::gather(ind_data, key = 'indicator', value = 'valor', DIST:EFF_VIAJE)
 
-  png(file.path(save_folder, 'indicators_plot.png'), width = 180, height = 180, units = 'mm', res = 300, ...)
-
-  print(ggplot2::ggplot(data = plot_data, aes(x = TIME_IND, y = valor)) +
+  g2 = ggplot2::ggplot(data = plot_data, ggplot2::aes(x = TIME_IND, y = valor)) +
     ggplot2::geom_boxplot() +
     ggplot2::xlab('Periodo') +
     ggplot2::ylab('Valor') +
-    ggplot2::facet_wrap(vars(indicator), nrow = 3, scales = "free_y"))
+    ggplot2::facet_wrap(vars(indicator), nrow = 3, scales = "free_y")
 
-  dev.off()
+  print(g2)
+
+  if(save_plot = TRUE) {
+    dev.copy(png, file.path(save_folder, 'indicators_plot.png'), width = 180, height = 180, units = 'mm', res = 300, ...)
+    dev.off()
+  }
 
 }
