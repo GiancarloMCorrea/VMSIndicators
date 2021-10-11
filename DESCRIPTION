@@ -25,7 +25,16 @@ Imports:
         tidyr (>= 1.1.4), 
         dplyr (>= 1.0.7)
 Depends: 
-    R (>= 2.10)
+        R (>= 2.10),
+        lubridate (>= 1.8.0),
+        ggplot2 (>= 3.3.5),
+        raster,
+        data.table (>= 1.14.2),
+        rgeos (>= 0.5.8),
+        rgdal (>= 1.5.27),
+        sp (>= 1.4.5),
+        tidyr (>= 1.1.4), 
+        dplyr (>= 1.0.7)
 Suggests: 
     rmarkdown,
     knitr
