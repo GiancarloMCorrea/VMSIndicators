@@ -15,15 +15,15 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 Imports: 
-    tidyr (>= 1.1.4), 
-    dplyr (>= 1.0.7), 
-    lubridate (>= 1.8.0),
-    ggplot2 (>= 3.3.5),
-    raster (>= 3.4.13),
-    data.table (>= 1.14.2),
-    rgeos (>= 0.5.8),
-    rgdal (>= 1.5.27),
-    sp (>= 1.4.5)
+        tidyr (>= 1.1.4), 
+        dplyr (>= 1.0.7), 
+        lubridate (>= 1.8.0),
+        ggplot2 (>= 3.3.5),
+        raster (>= 3.4.13),
+        data.table (>= 1.14.2),
+        rgeos (>= 0.5.8),
+        rgdal (>= 1.5.27),
+        sp (>= 1.4.5)
 Depends: 
     R (>= 2.10)
 Suggests: 
