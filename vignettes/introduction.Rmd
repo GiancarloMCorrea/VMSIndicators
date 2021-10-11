@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 El primer paso es instalar la librería `VMSIndicators` si es que no se ha instalado previamente (instalar la librería `remotes` previamente):
 ```{r eval = FALSE}
-remotes::install_github("gmoroncorrea/VMSIndicators")
+remotes::install_github("gmoroncorrea/VMSIndicators", build_vignettes = TRUE)
 ```
 
 Luego activamos la librería en nuestra sesión:
@@ -24,4 +24,77 @@ Luego activamos la librería en nuestra sesión:
 library(VMSIndicators)
 ```
 
-Ahora,
+Ahora, lo primero que tenemos que tener en orden son los datos de entrada. Necesitamos dos bases de datos para emplear esta librería: 
+
+* La base de datos de VMS, a la cual llamaremos `vmsdata`
+* La base de datos con descargas, a la cual llamaremos `catchdata`
+
+Esta librería tiene un ejemplo de cada base de datos. Los datos de VMS deben estar estructurados de la siguiente manera:
+```{r}
+data(vmsdata)
+head(vmsdata)
+```
+
+La columna `DC` es opcional y debe ser nombrada `DIST_COAST` luego:
+```{r}
+vmsdata$DIST_COAST = vmsdata$DC
+```
+
+Sin embargo, podemos usar la función `distCoast` para calcular distancia a la línea de costa en caso no tengamos información previa:
+```{r eval = FALSE}
+vmsdata$DIST_COAST = distCoast(lon = vmsdata$LON, lat = vmsdata$LAT, mainLand = TRUE)
+```
+
+La información de cada función puede encontrarse ejecutando `?` y luego el nombre de una función. Ejemplo: `?distCoast`.
+
+Los datos de desembarques deben estar estructurados de la siguiente manera:
+```{r}
+data(catchdata)
+head(catchdata)
+```
+
+Para obtener una base de datos matriz de la información de cada barco presente en `vmsdata`, podemos ejecutar la siguiente función:
+```{r}
+vesseldata = get_vessel_info(vmsdata = vmsdata)
+```
+
+Como vemos, ahora tenemos el nombre y matrícula de cada embarcación:
+```{r}
+head(vesseldata)
+```
+
+Lo siguiente que debemos hacer es calcular algunos valores necesarios para luego calcular los indicadores de desempeño:
+```{r}
+procdata = preprocessing(vmsdata = vmsdata, catchdata = catchdata, 
+                         vesseldata = vesseldata, cutoff_dc = 4)
+```
+
+Como observamos, esta nueva base de datos tiene columnas adicionales con algunas variables importantes. Por ahora no es importante entrar en el detalle de ellas:
+```{r}
+head(procdata)
+```
+
+Podemos crear figuras en formato PNG de las trayectorias de cada viaje identificado:
+```{r}
+plot_trajectory(data = procdata, vessel_name = 'GIANNINA_I')
+```
+
+Ahora, podemos calcular los indicadores de desempeño:
+```{r}
+ind_data = get_indicators(data = procdata)
+```
+
+Como vemos, cada indicador es específico para cada viaje:
+```{r}
+head(ind_data)
+```
+
+Estos indicadores pueden ser incluidos en una figura en formato PNG:
+```{r}
+plot_indicators(ind_data = ind_data)
+```
+
+Finalmente, podemos también graficar los centros de gravedad de cada viaje (ponderado por velocidad) y la incercia espacial:
+```{r}
+plot_cgi(data = procdata, vessel_name = 'GIANNINA_I', alpha = 0.7)
+```
