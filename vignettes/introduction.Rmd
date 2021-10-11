@@ -1,0 +1,27 @@
+---
+title: "VMSIndicators: Calculate basic efficiency indicators using VMS data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{introduction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+El primer paso es instalar la librería `VMSIndicators` si es que no se ha instalado previamente (instalar la librería `remotes` previamente):
+```{r eval = FALSE}
+remotes::install_github("gmoroncorrea/VMSIndicators")
+```
+
+Luego activamos la librería en nuestra sesión:
+```{r}
+library(VMSIndicators)
+```
+
+Ahora,
