@@ -9,6 +9,7 @@
 #' 'all' can be specified to plot trajectories of all fishing vessels. 
 #' @param vesseldata Vessel information.
 #' @param save_folder Folder to save the plots.
+#' @param save_plot Logical value to indicate if plot is saved as PNG.
 #' @param ... Other artuments for the plot function.
 #' @return PNG files are created in the specified folder.
 #' @export

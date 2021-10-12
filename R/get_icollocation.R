@@ -1,13 +1,16 @@
 #' Global index of collocation
 #'
-#' Calculate global index of collocation between trip i and trip i+1.
+#' Calculate global index of collocation between day i and day i+1 
+#' (if calculated for many vessels) or trip i and i+1 (if calculated
+#' for a single vessel).
 #'
 #' @param data Dataset with required quantities obtained from the
 #' preprocessing function.
 #' @param vessel_name Vessel name to plot trajectories as shown in the
 #' vessel information database obtained from the get_vessel_info function.
 #' 'all' can be specified to plot trajectories of all fishing vessels.
-#' @return A data.frame with the efficiency indicators per trip.
+#' @return A data.frame with the global index of collocation (GIC) and
+#' center of gravity.
 #' @export
 get_icollocation = function (data, vessel_name) {
 
@@ -88,8 +91,8 @@ get_icollocation = function (data, vessel_name) {
       else GIC <- 1
       
       tmp_out[[i]] = data.frame(INDEX = for_vec[i], TIME = unique(tmp1$MIN_TIME)[1], 
-                                CG_LAT_1 = mean(tmp1$CG_LAT), CG_LON_1 = mean(tmp1$CG_LON),
-                                CG_LAT_2 = mean(tmp2$CG_LAT), CG_LON_2 = mean(tmp2$CG_LON),  
+                                CG_LAT_i = mean(tmp1$CG_LAT), CG_LON_i = mean(tmp1$CG_LON),
+                                CG_LAT_i_1 = mean(tmp2$CG_LAT), CG_LON_i_1 = mean(tmp2$CG_LON),  
                                 GIC = GIC, VESSEL = vesselName)
 
     }

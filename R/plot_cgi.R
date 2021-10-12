@@ -14,11 +14,12 @@
 #' respectively.
 #' @param alpha Alpha parameter for color scale.
 #' @param mainTitle Main title in plot. Default value is the vessel name.
+#' @param save_plot Logical value to indicate if plot is saved as PNG.
 #' @return A PNG where the center of gravity and intertia are shown. 
 #' Bubble size is proportinal to trip catch.
 #' @export
 plot_cgi = function(data, vessel_name, save_folder = "./", color_scale = c("blue", "white", "red"), 
-                    alpha = 0.1, mainTitle = NULL, save_plot = TRUE, ...) {
+                    alpha = 0.1, mainTitle = NULL, save_plot = FALSE, ...) {
 
   w = NA
   modproj = NA
