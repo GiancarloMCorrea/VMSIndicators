@@ -140,4 +140,64 @@ function(x = long, y = lat, z = NA, w = NA, modproj = NA, mlong = NA,
 }
 
 
+"dg2nm" <-
+function(x, y = NA, modproj, mlong, mlat)
+{
 
+  miss <- function(x){
+    length(x) == 1 && is.na(x)
+  }
+  
+  if(is.list(x)) {
+    y <- x$y
+    x <- x$x
+  }
+  if(!miss(modproj)) {
+    x <- x - mlong
+    y <- y - mlat
+    if(modproj == "mean") {
+      x <- x * 60 * cos((mlat * pi)/180)
+      y <- y * 60
+    }
+    else if(is.numeric(modproj)) {
+      x <- x * 60 * modproj
+      y <- y * 60
+    }
+    else if(modproj == "cosine") {
+      x <- x * 60 * cos((y * pi)/180)
+      y <- y * 60
+    }
+  }
+  list(x = x, y = y)
+}
+
+"nm2dg" <-
+function(x, y = NA, modproj, mlong, mlat)
+{
+
+  miss <- function(x){
+    length(x) == 1 && is.na(x)
+  }
+  
+  if(is.list(x)) {
+    y <- x$y
+    x <- x$x
+  }
+  if(!miss(modproj)) {
+    if(modproj == "mean") {
+      y <- y/60
+      x <- x/(60 * cos((mlat * pi)/180))
+    }
+    else if(is.numeric(modproj)) {
+      x <- x/(60 * modproj)
+      y <- y/60
+    }
+    else if(modproj == "cosine") {
+      y <- y/60
+      x <- x/(60 * cos(((y + mlat) * pi)/180))
+    }
+  }
+  x <- x + mlong
+  y <- y + mlat
+  list(x = x, y = y)
+}

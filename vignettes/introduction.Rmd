@@ -78,12 +78,12 @@ head(procdata$checked)
 
 Podemos crear figuras en formato PNG de las trayectorias de cada viaje identificado:
 ```{r eval = FALSE}
-plot_trajectory(data = procdata, vessel_name = 'TASA_111')
+plot_trajectory(data = procdata$checked, vessel_name = 'TASA_111')
 ```
 
 Ahora, podemos calcular los indicadores de desempeño:
 ```{r}
-ind_data = get_indicators(data = procdata)
+ind_data = get_indicators(data = procdata$checked)
 ```
 
 Como vemos, cada indicador es específico para cada viaje:
@@ -140,5 +140,5 @@ plot_indicators(ind_data = ind_data, save_plot = FALSE)
 
 Finalmente, podemos también graficar los centros de gravedad de cada viaje (ponderado por velocidad) y la inercia espacial (valor mostrado):
 ```{r}
-plot_cgi(data = procdata, vessel_name = 'all', alpha = 0.7, save_plot = FALSE)
+plot_cgi(data = procdata$checked, vessel_name = 'all', alpha = 0.7, save_plot = FALSE)
 ```
