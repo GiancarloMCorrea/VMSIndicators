@@ -51,6 +51,7 @@ plot_trajectory = function(data, vessel_name = 'all', save_folder = './', save_p
       xLim = range(plotData$LON) 
       yLim = range(plotData$LAT) 
       nHours = difftime(plotData$TIME[nrow(plotData)], plotData$TIME[1], units = 'hours')
+      nHours = as.numeric(nHours, units = 'hours')
       sarr = seq(nrow(plotData) - 1)
       
         rgeos::plot(Peru, col = 'grey', xlim = xLim, ylim = yLim, axes = TRUE, 
