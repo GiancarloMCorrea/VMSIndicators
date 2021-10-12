@@ -23,7 +23,8 @@ Imports:
         raster,
         tidyr (>= 1.1.4), 
         dplyr (>= 1.0.7),
-        data.table
+        data.table,
+		rgdal
 Depends: 
         R (>= 2.10)
 Suggests: 
