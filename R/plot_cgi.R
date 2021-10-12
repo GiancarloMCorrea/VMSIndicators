@@ -166,13 +166,13 @@ plot_cgi = function(data, vessel_name, save_folder = "./", color_scale = c("blue
           thisTitle = mainTitle
         }
 
-        plot(Peru, col = 'grey', xlim = xLim, ylim = yLim, axes = TRUE, 
-             main = thisTitle)
-        points(x = plot_dat$LON, y = plot_dat$LAT, cex = (plot_dat$LANDING/maxCatch)*2, pch = 19, col = colorsvec[plot_dat$COL_ID])
-        segments(res$xaxe1[1], res$yaxe1[1], res$xaxe1[2], res$yaxe1[2], col = 'black', lwd = 2)
-        segments(res$xaxe2[1], res$yaxe2[1], res$xaxe2[2], res$yaxe2[2], col = 'black', lwd = 2)
-        legend('bottomleft', legend = paste0('Max captura = ', maxCatch, ' t'), bty = 'n')
-        box()
+        
+          rgeos::plot(Peru, col = 'grey', xlim = xLim, ylim = yLim, axes = TRUE, main = thisTitle)
+          points(x = plot_dat$LON, y = plot_dat$LAT, cex = (plot_dat$LANDING/maxCatch)*2, pch = 19, col = colorsvec[plot_dat$COL_ID])
+          segments(res$xaxe1[1], res$yaxe1[1], res$xaxe1[2], res$yaxe1[2], col = 'black', lwd = 2)
+          segments(res$xaxe2[1], res$yaxe2[1], res$xaxe2[2], res$yaxe2[2], col = 'black', lwd = 2)
+          legend('bottomleft', legend = paste0('Max captura = ', maxCatch, ' t'), bty = 'n')
+          box()
 
         if(save_plot) {
           dev.copy(png, file.path(save_folder, paste0('CGI_', vesselName, '.png')), width = 150, height = 150, units = 'mm', res = 300, ...)
@@ -185,7 +185,7 @@ plot_cgi = function(data, vessel_name, save_folder = "./", color_scale = c("blue
         Imin = NA, Iso = NA, xaxe1 = NA, yaxe1 = NA, xaxe2 = NA, yaxe2 = NA)
     }
     
-    return(res)
+    return(res$Iso)
 
 }
 

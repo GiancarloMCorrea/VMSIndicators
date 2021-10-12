@@ -69,14 +69,16 @@ procdata = preprocessing(vmsdata = vmsdata, catchdata = catchdata,
                          vesseldata = vesseldata, cutoff_dc = 4)
 ```
 
-Como observamos, esta nueva base de datos tiene columnas adicionales con algunas variables importantes. Por ahora no es importante entrar en el detalle de ellas:
+`procdata` es una lista con dos bases de datos. El elemento `checked` son los datos correctos y listos para ser analizados y el elemento `to_verify` son datos que necesitan ser verificados dado que la distancia recorrida es ilogica basado en el tiempo de viaje.
+
+Como observamos, esta nueva base de datos (`checked`) tiene columnas adicionales con algunas variables importantes. Por ahora no es importante entrar en el detalle de ellas:
 ```{r}
-head(procdata)
+head(procdata$checked)
 ```
 
 Podemos crear figuras en formato PNG de las trayectorias de cada viaje identificado:
 ```{r eval = FALSE}
-plot_trajectory(data = procdata, vessel_name = 'GIANNINA_I')
+plot_trajectory(data = procdata, vessel_name = 'TASA_111')
 ```
 
 Ahora, podemos calcular los indicadores de desempeño:
@@ -91,51 +93,52 @@ head(ind_data)
 
 ## Indicadores de eficiencia
 
-### IND_1: Recorrido por viaje
+### DURACION: Tiempo de viaje
 
-Es la distancia navegada durante el viaje (en millas nauticas). 
+Es el tiempo total de un viaje. Unidades: $h$.
 
-### IND_2: Distancia en línea recta
+### CAPTURA: Captura obtenida
 
-Sea $Dst_1$ la distancia del punto de inicio a su punto más apartado y $Dst_2$ la distancia del punto final a su punto más apartado. Entonces, la distancia en línea recta es calculada como el promedio entre $Dst_1$ y $Dst_2$ (en millas nauticas).
+Es la captura obtenida en el viaje. Unidades: $t$.
 
-### IND_3: Eficiencia de recorrido
+### CPUE: Captura por unidad de esfuerzo
 
-Calulado como: $IND_2/IND_1$.
+Calculada como: $CAPTURA/DURACION$. Unidades: $t/h$.
 
-### IND_4: Captura obtenida
+### DIST: Recorrido por viaje
 
-Es la captura obtenida en el viaje (en toneladas).
+Es la distancia navegada durante el viaje. Unidades: $mn$. 
 
-### IND_5: Eficiencia de captura
+### DIST\_RECT: Distancia en línea recta
 
-Calculada como: $IND_4/CAPBOD$, donde $CAPBOD$ representa la capacidad de bodega de la embarcación (en $t/m^3$).
+Sea $Dst_1$ la distancia del punto de inicio a su punto más apartado y $Dst_2$ la distancia del punto final a su punto más apartado. Entonces, la distancia en línea recta es calculada como el promedio entre $Dst_1$ y $Dst_2$. Unidades: $mn$.
 
-### IND_6: Tiempo de viaje
+### EFF\_CAPTURA: Eficiencia de captura
 
-Es el tiempo total de un viaje (en horas).
+Calculada como: $CAPTURA/CAPBOD$, donde $CAPBOD$ representa la capacidad de bodega de la embarcación. Unidades; $t/m^3$.
 
-### IND_7: Indice temporal
+### EFF\_DIST: Eficiencia de recorrido
 
-Calculada como: $24/IND_6$.
+Calulado como: $DIST_RECT/DIST$. Sin unidades.
 
-### IND_8: Captura por unidad de esfuerzo
+### IND\_TEMP: Indice temporal
 
-Calculada como: $IND_4/IND_6$
+Calculada como: $24/DURACION$. Sin unidades.
 
-### IND_9: Eficiencia de viaje
+### EFF\_VIAJE: Eficiencia de viaje
 
 Calculada como: 
 
-$$log(IND_3*IND_5*IND_7*IND_8 + 1)$$
+$$log(EFF\_DIST*EFF\_CAPTURA*IND\_TEMP*CPUE + 1)$$
 
 
-Estos indicadores pueden ser incluidos en una figura en formato PNG:
-```{r eval = FALSE}
-plot_indicators(ind_data = ind_data)
+
+Estos indicadores pueden ser graficados e incluidos en una figura en formato PNG:
+```{r}
+plot_indicators(ind_data = ind_data, save_plot = FALSE)
 ```
 
-Finalmente, podemos también graficar los centros de gravedad de cada viaje (ponderado por velocidad) y la incercia espacial:
-```{r eval = TRUE}
-plot_cgi(data = procdata, vessel_name = 'all', alpha = 0.7)
+Finalmente, podemos también graficar los centros de gravedad de cada viaje (ponderado por velocidad) y la inercia espacial (valor mostrado):
+```{r}
+plot_cgi(data = procdata, vessel_name = 'all', alpha = 0.7, save_plot = FALSE)
 ```

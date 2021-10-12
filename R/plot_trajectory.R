@@ -12,7 +12,7 @@
 #' @param ... Other artuments for the plot function.
 #' @return PNG files are created in the specified folder.
 #' @export
-plot_trajectory = function(data, vessel_name = 'all', save_folder = './', ...) {
+plot_trajectory = function(data, vessel_name = 'all', save_folder = './', save_plot = FALSE, ...) {
 
   # Create trip index:
   data$TRIP = paste(data$MATRICULA, data$TRIP_IND, sep = '_')
@@ -50,18 +50,21 @@ plot_trajectory = function(data, vessel_name = 'all', save_folder = './', ...) {
       xLim = range(plotData$LON) 
       yLim = range(plotData$LAT) 
       nHours = difftime(plotData$TIME[nrow(plotData)], plotData$TIME[1], units = 'hours')
-
-      png(file.path(save_folder, paste0(selVesselInd, '_', trip_i, '.png')), width = 150, height = 150, units = 'mm', res = 300, ...)
-
-      plot(Peru, col = 'grey', xlim = xLim, ylim = yLim, axes = TRUE, 
-           main = paste(vesselName, ' - Viaje: ', trip_i, sep = ''),
-           sub = paste0('Inicio: ', plotData$TIME[1], ' - Fin: ', plotData$TIME[nrow(plotData)]))
       sarr = seq(nrow(plotData) - 1)
-      points(plotData$LON, plotData$LAT)
-      arrows(plotData$LON[sarr], plotData$LAT[sarr], plotData$LON[sarr + 1], plotData$LAT[sarr + 1], length = 0.08, col = 'red')
-      box()
+      
+        rgeos::plot(Peru, col = 'grey', xlim = xLim, ylim = yLim, axes = TRUE, 
+             main = paste(vesselName, ' - Viaje: ', trip_i, sep = ''),
+             sub = paste0('Inicio: ', plotData$TIME[1], ' - Fin: ', plotData$TIME[nrow(plotData)]))
+        points(plotData$LON, plotData$LAT)
+        arrows(plotData$LON[sarr], plotData$LAT[sarr], plotData$LON[sarr + 1], plotData$LAT[sarr + 1], length = 0.08, col = 'red')
+        box()
 
-      dev.off()
+      if(save_plot) {
+
+        dev.copy(png, file.path(save_folder, paste0(selVesselInd, '_', trip_i, '.png')), width = 150, height = 150, units = 'mm', res = 300, ...)
+        dev.off()
+
+      }
 
       trip_i = trip_i+1
 

@@ -120,6 +120,10 @@ preprocessing = function(vmsdata, catchdata, vesseldata, cutoff_dc = 5, cutoff_t
   outData = indData2[(!is.na(indData2$LANDING) & indData2$DIFF_IND_TRIP <= cutoff_time & indData2$TRIP_TIME >= min_trip_time & 
                             indData2$TRIP_DISTANCE <= 11*indData2$TRIP_TIME), ]
 
-  return(outData)
+  veriData = indData2[indData2$TRIP_DISTANCE > 11*indData2$TRIP_TIME, ]
+
+  outList = list(checked = outData, to_verify = veriData)
+
+  return(outList)
 
 }

@@ -4,6 +4,7 @@
 #'
 #' @param ind_data Dataset with efficiency indicators obtained from the
 #' get_indicators function.
+#' @param save_plot Logical value to indicate if plot is saved as PNG.
 #' @param save_folder Folder to save the plot.
 #' @return A PNG with the efficiency indicators plot.
 #' @export
@@ -15,13 +16,13 @@ plot_indicators = function(ind_data, save_plot = FALSE, save_folder = './', ...)
     ggplot2::geom_boxplot() +
     ggplot2::xlab('Periodo') +
     ggplot2::ylab('Valor') +
+    ggplot2::theme_bw() +
     ggplot2::facet_wrap(ggplot2::vars(indicator), nrow = 3, scales = "free_y")
 
-  print(g2)
-
   if(save_plot) {
-    dev.copy(png, file.path(save_folder, 'indicators_plot.png'), width = 180, height = 180, units = 'mm', res = 300, ...)
-    dev.off()
+    ggplot2::ggsave(filename = file.path(save_folder, 'indicators_plot.png'), plot = g2, width = 180, height = 180, units = 'mm', dpi = 300, ...)
   }
+
+  return(g2)
 
 }
