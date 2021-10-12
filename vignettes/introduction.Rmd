@@ -138,6 +138,12 @@ Estos indicadores pueden ser graficados e incluidos en una figura en formato PNG
 plot_indicators(ind_data = ind_data, save_plot = FALSE)
 ```
 
+Podemos calcular el índice global de colocación (GIC):
+```{r}
+gic_data = get_icollocation(data = procdata$checked, vessel_name = 'all')
+head(gic_data)
+```
+
 Finalmente, podemos también graficar los centros de gravedad de cada viaje (ponderado por velocidad) y la inercia espacial (valor mostrado):
 ```{r}
 plot_cgi(data = procdata$checked, vessel_name = 'all', alpha = 0.7, save_plot = FALSE)

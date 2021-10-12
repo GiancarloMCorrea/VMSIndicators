@@ -11,6 +11,7 @@ plot_cgi(
   color_scale = c("blue", "white", "red"),
   alpha = 0.1,
   mainTitle = NULL,
+  save_plot = FALSE,
   ...
 )
 }
@@ -31,6 +32,8 @@ respectively.}
 \item{alpha}{Alpha parameter for color scale.}
 
 \item{mainTitle}{Main title in plot. Default value is the vessel name.}
+
+\item{save_plot}{Logical value to indicate if plot is saved as PNG.}
 }
 \value{
 A PNG where the center of gravity and intertia are shown.

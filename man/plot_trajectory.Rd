@@ -4,7 +4,13 @@
 \alias{plot_trajectory}
 \title{Plot trajectories}
 \usage{
-plot_trajectory(data, vessel_name = "all", save_folder = "./", ...)
+plot_trajectory(
+  data,
+  vessel_name = "all",
+  save_folder = "./",
+  save_plot = FALSE,
+  ...
+)
 }
 \arguments{
 \item{data}{Dataset with required quantities obtained from the
@@ -15,6 +21,8 @@ vessel information database obtained from the get_vessel_info function.
 'all' can be specified to plot trajectories of all fishing vessels.}
 
 \item{save_folder}{Folder to save the plots.}
+
+\item{save_plot}{Logical value to indicate if plot is saved as PNG.}
 
 \item{...}{Other artuments for the plot function.}
 

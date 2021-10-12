@@ -4,11 +4,13 @@
 \alias{plot_indicators}
 \title{Plot efficiency indicators}
 \usage{
-plot_indicators(ind_data, save_folder = "./", ...)
+plot_indicators(ind_data, save_plot = FALSE, save_folder = "./", ...)
 }
 \arguments{
 \item{ind_data}{Dataset with efficiency indicators obtained from the
 get_indicators function.}
+
+\item{save_plot}{Logical value to indicate if plot is saved as PNG.}
 
 \item{save_folder}{Folder to save the plot.}
 }
