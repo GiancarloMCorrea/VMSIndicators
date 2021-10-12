@@ -72,9 +72,11 @@ preprocessing = function(vmsdata, catchdata, vesseldata, cutoff_dc = 5, cutoff_t
         # tiempo de viaje:
         tmpData_2$TRIP_TIME = difftime(max(tmpData_2$TIME), 
                                        min(tmpData_2$TIME), units = 'hours')
-        
+        tmpData_2$TRIP_TIME = as.numeric(tmpData_2$TRIP_TIME, units = 'hours')
+
         # find landing value:
         diffTimes = difftime(max(tmpData_2$TIME), catch_tmpData$TIME, units = 'hours')
+        diffTimes = as.numeric(diffTimes, units = 'hours')
         posSel = which(diffTimes < 0)[1]
         tmpData_2$DIFF_IND_TRIP = diffTimes[posSel] # time difference selected btw landing and vms data
         tmpData_2$LANDING = catch_tmpData$Pesca_Descargada[posSel] # hacerlo con pesca descargada
@@ -93,6 +95,7 @@ preprocessing = function(vmsdata, catchdata, vesseldata, cutoff_dc = 5, cutoff_t
         
         point_time_diff = difftime(tmpData_2$TIME[2:nrow(tmpData_2)], 
                                    tmpData_2$TIME[1:(nrow(tmpData_2)-1)], units = 'hours')
+        point_time_diff = as.numeric(point_time_diff, units = 'hours')
         tmpData_2$VELOCITY = tmpData_2$DISTANCE_I_I1/c(as.numeric(point_time_diff), NA)
         cent_grav = 1/tmpData_2$VELOCITY
         cent_grav[is.infinite(cent_grav)] = 10 # max weight, assuming velocity = 0.1
