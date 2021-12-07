@@ -14,6 +14,18 @@
 #' @export
 preprocessing = function(vmsdata, catchdata, vesseldata, cutoff_dc = 5, cutoff_time = 8, min_trip_time = 5) {
 
+  # Check column names:
+  vmscols = c('EMPRESA', 'NAVE', 'CAPBODEGA', 'MATRICULA', 'LON', 'LAT', 'FECHA', 'HORA', 'DIST_COAST')
+  catchcols = c('EMPRESA', 'EMBARCACION', 'CAPBODEGA', 'Fecha_Arribo', 'Hora_Arribo', 'Pesca_Descargada')
+  vmstest = vmscols %in% colnames(vmsdata)
+  catchtest = catchcols %in% colnames(catchdata)
+  if(!(all(vmstest))) {
+    stop(paste0('Column(s) ', paste(vmscols[!vmstest], collapse = ', '), ' in vmsdata are missing.'))
+  }
+  if(!(all(catchtest))) {
+    stop(paste0('Column(s) ', paste(catchcols[!catchtest], collapse = ', '), ' in catchdata are missing.'))
+  }
+
   # Create time column:
   vmsdata$TIME = paste(vmsdata$FECHA, vmsdata$HORA)
   vmsdata$TIME = lubridate::parse_date_time(vmsdata$TIME, c("%d/%m/%Y %H:%M:%S", "%d/%m/%y %H:%M"))
